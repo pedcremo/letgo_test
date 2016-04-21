@@ -1,5 +1,7 @@
 Letgo_technical_test with Symfony 2.8.4
 =======================================
+* Clone this project "git clone https://github.com/pedcremo/letgo_test.git"
+* Install dependencies "php composer.php install"
 * Run your application:
     1. Execute the php app/console server:run command.
     2. Browse to the http://localhost:8000/api/twitter/{twitter_profile_user} URL to test the endpoint.
