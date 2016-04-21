@@ -6,6 +6,7 @@ class TwitterProfile
 {
     private $id;
     public $last_tweets;
+    
 
     public function __construct(TwitterProfileId $id)
     {

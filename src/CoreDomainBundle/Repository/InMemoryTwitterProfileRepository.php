@@ -21,6 +21,7 @@ class InMemoryTwitterProfileRepository implements TwitterProfileRepository
 
     public function find(TwitterProfileId $twitterProfileId)
     {
+        return $this->twitter_profiles[$twitterProfileId->getValue()];
     }
 
     public function findAll()
@@ -30,16 +31,25 @@ class InMemoryTwitterProfileRepository implements TwitterProfileRepository
 
     public function add(TwitterProfile $twitterProfile)
     {
+        if ( is_null($this->find($twitterProfile->getId())) ){
+            $this->twitter_profiles[$twitterProfile->getId()]=$twitterProfile;
+        }
     }
 
     public function remove(TwitterProfile $twitterProfile)
     {
+            $this->twitter_profiles[$twitterProfile->getId()]=null;
+
     }
 
     public function getLastTweets(TwitterProfile $twitterProfile){
         global $kernel;
+
+        if ('AppCache' == get_class($kernel)) {
+            $kernel = $kernel->getKernel();
+        }
         $twitter = $kernel->getContainer()->get('endroid.twitter');
-        
+
         // Retrieve the user's timeline
         $tweets = $twitter->getTimeline(array(
             'screen_name' => $twitterProfile->getId()->getValue(),'count' => 10
