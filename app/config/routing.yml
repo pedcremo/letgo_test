@@ -1,0 +1,18 @@
+app:
+    resource: "@ApiBundle/Controller/"
+    type:     annotation
+
+
+twitter:
+    path:      api/twitter/{userName}
+    # uses a special syntax to point to the controller - see note below
+    defaults:  { _controller: ApiBundle:TwitterApi:getLastTweets }
+
+# This exposes the Twitter API via /twitterapi. This means that instead of sending a signed request
+# to https://dev.twitter.com/docs/api/1.1/* you can now send an unsigned request to /twitterapi/*.
+# Make sure you secure this area if you don t want others to be able to post on your behalf.
+
+EndroidTwitterBundle:
+    resource:   "@EndroidTwitterBundle/Controller/"
+    type:       annotation
+    prefix:     /twitterapi
