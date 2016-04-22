@@ -8,9 +8,9 @@ interface TwitterProfileRepository
 
     public function findAll();
 
-    public function add(TwitterProfile $twitterProfile);
+    public function add(TwitterProfileId $twitterProfileId);
 
-    public function remove(TwitterProfile $twitterProfile);
+    public function remove(TwitterProfileId $twitterProfileId);
 
-    public function getLastTweets(TwitterProfile $twitterProfile);
+    public function getLastTweets(TwitterProfileId $twitterProfileId);
 }

@@ -9,18 +9,29 @@ use Endroid\Twitter\Twitter;
 
 class InMemoryTwitterProfileRepository implements TwitterProfileRepository
 {
-    private $twitter_profiles;
+    private $twitter_profiles; //Array of all queried TwitterProfiles objects
+    private $twitter_service; //Actual service used to query real twitter dev API
 
     public function __construct()
     {
-        $this->twitter_profiles[] = new TwitterProfile(
+        /*$this->twitter_profiles[] = new TwitterProfile(
             new TwitterProfileId('nicklaus_')
-        );
+        );*/
+        global $kernel;
+
+        if ('AppCache' == get_class($kernel)) {
+            $kernel = $kernel->getKernel();
+        }
+        $this->twitter_service = $kernel->getContainer()->get('endroid.twitter');
+
 
     }
 
     public function find(TwitterProfileId $twitterProfileId)
     {
+        if ($this->twitter_profiles[$twitterProfileId->getValue()] == null){
+            $this->add($twitterProfileId);
+        }
         return $this->twitter_profiles[$twitterProfileId->getValue()];
     }
 
@@ -29,33 +40,39 @@ class InMemoryTwitterProfileRepository implements TwitterProfileRepository
         return $this->twitter_profiles;
     }
 
-    public function add(TwitterProfile $twitterProfile)
+    public function add(TwitterProfileId $twitterProfileId)
     {
-        if ( is_null($this->find($twitterProfile->getId())) ){
-            $this->twitter_profiles[$twitterProfile->getId()]=$twitterProfile;
-        }
-    }
 
-    public function remove(TwitterProfile $twitterProfile)
-    {
-            $this->twitter_profiles[$twitterProfile->getId()]=null;
+        $this->twitter_profiles[$twitterProfileId->getValue()]=new TwitterProfile($twitterProfileId);
 
     }
 
-    public function getLastTweets(TwitterProfile $twitterProfile){
-        global $kernel;
+    public function remove(TwitterProfileId $twitterProfileId)
+    {
+            $this->twitter_profiles[$twitterProfileId->getValue()]=null;
 
-        if ('AppCache' == get_class($kernel)) {
-            $kernel = $kernel->getKernel();
+    }
+
+    public function getLastTweets(TwitterProfileId $twitterProfileId){
+
+        $twitter_profile =$this->find($twitterProfileId);
+
+        /* Retrieve the user's timeline from twitter API  if seconds beetween callings are greater than 10 seconds
+        otherwise we get tweets from memory because have been cached previosly
+        */
+        $seconds_beetween_calls=time() - $twitter_profile->getLastTweetsTimeStamp();
+
+        if ($seconds_beetween_calls >10){
+            $tweets = $this->twitter_service->getTimeline(array(
+                'screen_name' => $twitterProfileId->getValue(),'count' => 10
+            ));
+            $twitter_profile->setLastTweets($tweets);
+        }else{
+            $tweets = $twitter_profile->getLastTweets();
         }
-        $twitter = $kernel->getContainer()->get('endroid.twitter');
 
-        // Retrieve the user's timeline
-        $tweets = $twitter->getTimeline(array(
-            'screen_name' => $twitterProfile->getId()->getValue(),'count' => 10
-        ));
+        return $tweets;
 
-        $twitterProfile->last_tweets = $tweets;
-        return $twitterProfile;
+        //return $twitterProfile;
     }
 }
