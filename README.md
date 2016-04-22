@@ -6,6 +6,10 @@ Letgo_technical_test with Symfony 2.8.4
     1. Execute the php app/console server:run command.
     2. Browse to the http://localhost:8000/api/twitter/{twitter_profile_user} URL to test the endpoint.
 
+* Test your application:
+    1. phpunit is the testing tool. Install it.sudo apt-get install phpunit
+    2. To run unit tests simply execute phpunit in the project root
+
 Example. http://localhost:8000/api/twitter/nicklaus_
 This api endpoint retrieves the last 10 tweets of a given user as a last parameter. In this case nicklaus_.
 
@@ -17,11 +21,6 @@ Under the hood endroid/twitter-bundle uses php5-curl module so install it
 
 sudo apt-get install php5-curl
 
-phpunit is the testing tool. Install it.
-
-sudo apt-get install phpunit
-
-To run unit tests simply execute phpunit in the project root
 
 For re-checking Symfony requirements executing this command:
 
