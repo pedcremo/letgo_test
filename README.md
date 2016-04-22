@@ -1,4 +1,4 @@
-Letgo_technical_test with Symfony 2.8.4
+Technical_test with Symfony 2.8.4
 =======================================
 * Clone this project "git clone https://github.com/pedcremo/letgo_test.git"
 * Install dependencies "php composer.phar install"
