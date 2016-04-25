@@ -14,15 +14,8 @@ class InMemoryTwitterProfileRepository implements TwitterProfileRepository
     private $redis_service;
 
     public function __construct($twitter_service,$redis_service)
-    {
-        /*global $kernel;
-
-        if ('AppCache' == get_class($kernel)) {
-            $kernel = $kernel->getKernel();
-        }*/
-        //$this->twitter_service = $kernel->getContainer()->get('endroid.twitter');
+    {        
         $this->twitter_service = $twitter_service;
-        //$this->redis_service = $kernel->getContainer()->get('snc_redis.default');
         $this->redis_service = $redis_service;
     }
 
