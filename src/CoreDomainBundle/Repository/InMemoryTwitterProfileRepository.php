@@ -32,9 +32,10 @@ class InMemoryTwitterProfileRepository implements TwitterProfileRepository
         return unserialize($this->redis_service->get($twitterProfileId->getValue()));
     }
 
+    //Not implemented yet
     public function findAll()
     {
-        return $this->twitter_profiles;
+        return null;
     }
 
     public function add(TwitterProfileId $twitterProfileId)
