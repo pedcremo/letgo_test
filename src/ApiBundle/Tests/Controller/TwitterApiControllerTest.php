@@ -10,10 +10,10 @@ class TwitterApiControllerTest extends WebTestCase
     {
         $client = static::createClient();
 
-        /*$crawler = $client->request('GET', '/api/twitter/nicklaus_');
+        $crawler = $client->request('GET', '/api/twitter/nicklaus_');
 
         $this->assertEquals(200, $client->getResponse()->getStatusCode());
-        $this->assertContains('Testing api/twitter/nicklaus_ endpoint', $crawler->filter('#container h1')->text());
+        /*$this->assertContains('Testing api/twitter/nicklaus_ endpoint', $crawler->filter('#container h1')->text());
         */
     }
 }

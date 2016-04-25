@@ -8,9 +8,7 @@ services:
 #        class: ApiBundle\Directory\ClassName
 #        arguments: ["@another_service_name", "plain_value", "%parameter_name%"]
 
+
     twitterprofile_repository:
         class: CoreDomainBundle\Repository\InMemoryTwitterProfileRepository
-
-
-    twitter:
-        class:  Endroid\Twitter\Twitter
+        arguments: ["@endroid.twitter","@snc_redis.default"]
