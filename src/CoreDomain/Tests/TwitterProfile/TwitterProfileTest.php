@@ -24,7 +24,5 @@ class TwitterProfileTest extends \PHPUnit_Framework_TestCase
 
         // not assert equal check between two setLastTweets TimeStamp should change
         $this->assertNotEquals($time_stamp1,$twitterProfile->getLastTweetsTimeStamp());
-
-
     }
 }
