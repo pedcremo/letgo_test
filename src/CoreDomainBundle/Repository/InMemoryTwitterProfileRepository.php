@@ -22,9 +22,6 @@ class InMemoryTwitterProfileRepository implements TwitterProfileRepository
         }
         $this->twitter_service = $kernel->getContainer()->get('endroid.twitter');
         $this->redis_service = $kernel->getContainer()->get('snc_redis.default');
-
-
-
     }
 
     public function find(TwitterProfileId $twitterProfileId)
@@ -55,8 +52,8 @@ class InMemoryTwitterProfileRepository implements TwitterProfileRepository
 
         $twitter_profile =$this->find($twitterProfileId);
 
-        /* Retrieve the user's timeline from twitter API  if seconds beetween callings are greater than 10 seconds
-        otherwise we get tweets from memory because have been cached previosly
+        /* Retrieve the user's timeline from twitter API  if seconds among callings are greater than 10 seconds
+        otherwise we get tweets from memory because have been cached previosly in a redis server
         */
         $seconds_beetween_calls=time() - $twitter_profile->getLastTweetsTimeStamp();
 
