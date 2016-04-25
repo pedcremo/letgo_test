@@ -2,7 +2,7 @@ Technical_test with Symfony 2.8.4
 =======================================
 * Clone this project "git clone https://github.com/pedcremo/letgo_test.git"
 * Install dependencies "php composer.phar install"
-* Run your application:
+* Run your application: (READ PREREQUISITES)
     1. Execute the php app/console server:run command.
     2. Browse to the http://localhost:8000/api/twitter/{twitter_profile_user} URL to test the endpoint.
 
@@ -38,4 +38,13 @@ READ documentation https://github.com/snc/SncRedisBundle/blob/master/Resources/d
 
 We should install and run a redis server on the same server where this example has been deployed
 sudo apt-get install redis-server
-Check it ps -e|grep -i redis
+
+Check that actually is running "ps -e|grep -i redis"
+
+Prerequisites
+-------------
+php5-cli
+php5-curl
+redis-server
+
+apt-get install php5-cli php5-curl redis-server
