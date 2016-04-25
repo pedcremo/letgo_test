@@ -9,30 +9,30 @@ use Endroid\Twitter\Twitter;
 
 class InMemoryTwitterProfileRepository implements TwitterProfileRepository
 {
-    private $twitter_profiles; //Array of all queried TwitterProfiles objects
+
     private $twitter_service; //Actual service used to query real twitter dev API
+    private $redis_service;
 
     public function __construct()
     {
-        /*$this->twitter_profiles[] = new TwitterProfile(
-            new TwitterProfileId('nicklaus_')
-        );*/
         global $kernel;
 
         if ('AppCache' == get_class($kernel)) {
             $kernel = $kernel->getKernel();
         }
         $this->twitter_service = $kernel->getContainer()->get('endroid.twitter');
+        $this->redis_service = $kernel->getContainer()->get('snc_redis.default');
+
 
 
     }
 
     public function find(TwitterProfileId $twitterProfileId)
     {
-        if ($this->twitter_profiles[$twitterProfileId->getValue()] == null){
+        if ($this->redis_service->get($twitterProfileId->getValue()) == null){
             $this->add($twitterProfileId);
         }
-        return $this->twitter_profiles[$twitterProfileId->getValue()];
+        return unserialize($this->redis_service->get($twitterProfileId->getValue()));
     }
 
     public function findAll()
@@ -42,15 +42,13 @@ class InMemoryTwitterProfileRepository implements TwitterProfileRepository
 
     public function add(TwitterProfileId $twitterProfileId)
     {
-
-        $this->twitter_profiles[$twitterProfileId->getValue()]=new TwitterProfile($twitterProfileId);
+        $this->redis_service->set($twitterProfileId->getValue(),serialize(new TwitterProfile($twitterProfileId)));
 
     }
 
     public function remove(TwitterProfileId $twitterProfileId)
     {
-            $this->twitter_profiles[$twitterProfileId->getValue()]=null;
-
+        $this->redis_service->set($twitterProfileId->getValue(),null);
     }
 
     public function getLastTweets(TwitterProfileId $twitterProfileId){
@@ -67,12 +65,12 @@ class InMemoryTwitterProfileRepository implements TwitterProfileRepository
                 'screen_name' => $twitterProfileId->getValue(),'count' => 10
             ));
             $twitter_profile->setLastTweets($tweets);
+            //Update twitter_profile in redis memcache
+            $this->redis_service->set($twitterProfileId->getValue(),serialize($twitter_profile));
         }else{
             $tweets = $twitter_profile->getLastTweets();
         }
 
         return $tweets;
-
-        //return $twitterProfile;
     }
 }

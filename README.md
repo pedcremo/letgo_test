@@ -13,6 +13,13 @@ Technical_test with Symfony 2.8.4
 Example. http://localhost:8000/api/twitter/nicklaus_
 This api endpoint retrieves the last 10 tweets of a given user as a last parameter. In this case nicklaus_.
 
+For re-checking Symfony requirements executing this command:
+
+   php letgo_technical_test/app/check.php
+
+
+Symfony bundles used
+---------------------
 For twitter API connection I have used https://github.com/endroid/EndroidTwitterBundle
 
 $ composer require endroid/twitter-bundle
@@ -21,7 +28,14 @@ Under the hood endroid/twitter-bundle uses php5-curl module so install it
 
 sudo apt-get install php5-curl
 
+For memcaching I'am going to use https://github.com/snc/SncRedisBundle bundle.
+Acually this bundle integrates Predis and phpredis into your Symfony application.
 
-For re-checking Symfony requirements executing this command:
+Add the snc/redis-bundle package to your require section in the composer.json file.
+$ composer require snc/redis-bundle 2.x-dev
+$ composer require predis/predis ^1.0
+READ documentation https://github.com/snc/SncRedisBundle/blob/master/Resources/doc/index.md
 
-   php letgo_technical_test/app/check.php
+We should install and run a redis server on the same server where this example has been deployed
+sudo apt-get install redis-server
+Check it ps -e|grep -i redis

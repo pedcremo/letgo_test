@@ -9,6 +9,12 @@ endroid_twitter:
     access_token: "7855032-2X4NhkAAsM3Nd3zsW4nRsrrq68fMboTMNg874GgT4V"
     access_token_secret: "abVsIZVMVRq1ZjSS0AMFhhSnFzsf4AaWQhUKzwbfk2zMu"
 
+snc_redis:
+    clients:
+        default:
+            type: predis
+            alias: default
+            dsn: redis://localhost
 
 # Put parameters here that don't need to change on each machine where the app is deployed
 # http://symfony.com/doc/current/best_practices/configuration.html#application-related-configuration
