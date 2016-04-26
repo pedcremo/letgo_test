@@ -1,6 +1,10 @@
 Technical_test with Symfony 2.8.4
 =======================================
-* Clone this project "git clone https://github.com/pedcremo/letgo_test.git"
+
+A simple backend with an API containing a single endpoint api/twitter/{user}. When this endpoint is
+called we get a JSON with the last 10 tweets from a given user as parameter. We use the official twitter API call user_timeline. The endpoint supports a temporal cache that let you maintain in memory for 10 seconds the last tweets of previous queried users in order to minimize the number of connection calls to real twitter API.
+
+* Clone this project "git clone https://github.com/pedcremo/technical_test.git"
 * Install dependencies "php composer.phar install"
 * Run your application: (READ PREREQUISITES)
     1. Execute the php app/console server:run command.

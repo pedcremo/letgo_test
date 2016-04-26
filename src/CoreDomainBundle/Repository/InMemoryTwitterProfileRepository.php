@@ -11,10 +11,10 @@ class InMemoryTwitterProfileRepository implements TwitterProfileRepository
 {
 
     private $twitter_service; //Actual service used to query real twitter dev API
-    private $redis_service;
+    private $redis_service; //Memcache service to maintain in memory some information at least a few seconds in order to avoid too many twitter API query calls 
 
     public function __construct($twitter_service,$redis_service)
-    {        
+    {
         $this->twitter_service = $twitter_service;
         $this->redis_service = $redis_service;
     }
